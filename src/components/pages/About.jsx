@@ -19,9 +19,15 @@ function About() {
                 Version <span className='text-white'>1.0.0</span>
             </p>
             <p className='text-lg text-gray-400'>
-                Layout By:
+                Layout By:&nbsp;
                 <a className='text-white' href='https://twitter.com/hassibmoddasser'>
                 Hassib Moddasser
+                </a>
+            </p>
+            <p className='text-lg text-gray-400'>
+                Tutorial done by:&nbsp;
+                <a className='text-white' href='https://github.com/Balint90'>
+                Balint Csertan
                 </a>
             </p>
         </div>

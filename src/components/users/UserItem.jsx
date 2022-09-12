@@ -10,14 +10,14 @@ function UserItem({user: { login, avatar_url}}) {
                         <img src={avatar_url} alt="Profile" width={150}/>
                     </div>
                 </div>
-                
-            </div>
-            <div>
+                <div>
                 <h2 className="card-title">{login}</h2>
-                <Link className='text-base-content text-opacity-40' to={`/users/${login}`}>
+                <Link className='text-base-content flex text-opacity-40' to={`/users/${login}`}>
                     Visit Profile
                 </Link>
             </div>
+            </div>
+            
         </div>
     )
 }
