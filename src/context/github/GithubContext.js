@@ -9,14 +9,15 @@ const GITHUB_TOKEN = process.env.REACT_APP_GITHUB_TOKEN
 export const GithubProvider = ({children}) => {
     const initialState = {
         users: [],
-        loading: true
+        user: {},
+        loading: false
     } 
 
     const [state, dispatch] = useReducer(githubReducer, initialState)
 
     //Get initial users (testing purposes)
     const fetchUsers = async () => { 
-        setLoading(true)
+        setLoading()
         const response = await fetch(`${GITHUB_URL}/users`,
         {
             method: "GET",
@@ -37,7 +38,7 @@ export const GithubProvider = ({children}) => {
     //Get search results
     const searchUsers = async (text) => { 
         
-        setLoading(true)
+        setLoading()
 
         const params = new URLSearchParams({
             q: text
@@ -60,6 +61,34 @@ export const GithubProvider = ({children}) => {
         })
     }
 
+    //Get a single user
+    const getUser = async (login) => { 
+        
+        setLoading()
+
+        const response = await fetch(`${GITHUB_URL}/users/${login}`,
+        {
+            method: "GET",
+            // headers: {
+            //     Authorization: `token ${GITHUB_TOKEN}`
+            // }
+        })
+
+        if (response.status === 404) {
+            window.location = '/notfound'
+        }
+        else {
+            const data = await response.json()
+
+            console.log(data)
+
+            dispatch({
+                type: 'GET_USER',
+                payload: data,
+            })
+        }
+    }
+
     //Clear search results
     const clearUsers = () => dispatch({
             type: 'CLEAR_USERS'
@@ -70,10 +99,13 @@ export const GithubProvider = ({children}) => {
 
     return <GithubContext.Provider value={{
         users: state.users, 
-        loading: state.loading, 
+        loading: state.loading,
+        user: state.user,
         fetchUsers, 
         searchUsers,
-        clearUsers}}>
+        clearUsers,
+        getUser
+    }}>
         {children}
     </GithubContext.Provider>
 }
